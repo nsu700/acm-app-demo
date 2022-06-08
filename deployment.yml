@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: version-hello
+    app.kubernetes.io/component: version-hello
+    app.kubernetes.io/instance: version-hello
+  name: version-hello
+  namespace: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: version-hello
+  template:
+    metadata:
+      labels:
+        deployment: version-hello
+    spec:
+      containers:
+      - image: quay.io/rhn_support_nsu/versioned-hello
+        imagePullPolicy: IfNotPresent
+        name: version-hello
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
